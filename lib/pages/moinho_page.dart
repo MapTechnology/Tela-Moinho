@@ -135,7 +135,7 @@ class _MoinhoPageState extends State<MoinhoPage> {
           produtos.add({
             "id": ++id,
             "cdProduto": produto.cdProduto,
-            "dsProduto": "$id - ${produto.dsProduto}",
+            "dsProduto": "$id - ${produto.cdProduto}",
           });
         });
       }
