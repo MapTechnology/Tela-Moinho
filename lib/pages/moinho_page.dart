@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:easy_debounce/easy_debounce.dart';
@@ -628,10 +627,10 @@ class _MoinhoPageState extends State<MoinhoPage> {
                         scale: 1.7,
                         child: Radio<int>(
                           value: 2,
-                          groupValue: _tipoRefugoMaquina,
+                          groupValue: _tipoRefugoProduto,
                           onChanged: (int? value) {
                             setState(() {
-                              _tipoRefugoMaquina = value;
+                              _tipoRefugoProduto = value;
                             });
                           },
                         ),
@@ -1378,10 +1377,10 @@ class _MoinhoPageState extends State<MoinhoPage> {
                                 fillColor: MaterialStateColor.resolveWith(
                                     (states) => Colors.blue),
                                 value: 2,
-                                groupValue: _tipoRefugoMaquina,
+                                groupValue: _tipoRefugoProduto,
                                 onChanged: (int? value) {
                                   setState(() {
-                                    _tipoRefugoMaquina = value;
+                                    _tipoRefugoProduto = value;
                                   });
                                 },
                               ),
