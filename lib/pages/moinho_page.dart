@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:easy_debounce/easy_debounce.dart';
@@ -174,7 +175,7 @@ class _MoinhoPageState extends State<MoinhoPage> {
                 child: Text(
                   'Tela Moinho',
                   style: TextStyle(
-                    fontSize: 40.0,
+                    fontSize: 20.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -394,7 +395,7 @@ class _MoinhoPageState extends State<MoinhoPage> {
                       child: DropdownSearch<dynamic>(
                         mode: Mode.MENU,
                         maxHeight: 300,
-                        items: produtos.map((e) => e['dsProduto']).toList(),
+                        items: produtos.map((e) => e['cdProduto']).toList(),
                         showSearchBox: true,
                         dropdownSearchDecoration: const InputDecoration(
                           labelText: "Escolha um produto",
@@ -407,16 +408,7 @@ class _MoinhoPageState extends State<MoinhoPage> {
                             isTableLoading = true;
                           });
 
-                          print('value');
-                          print(value);
-
-                          var idProduto = value.toString().substring(0, 1);
-                          var produtoSelecionado = produtos.where((element) =>
-                              element['id'].toString() == idProduto);
-                          var cdProd =
-                              produtoSelecionado.elementAt(0)['cdProduto'];
-
-                          _daoProdutos.getProdutos(cdProd).then((produto) {
+                          _daoProdutos.getProdutos(value).then((produto) {
                             listaProd.clear();
 
                             setState(() {
@@ -610,20 +602,43 @@ class _MoinhoPageState extends State<MoinhoPage> {
             ),
             Visibility(
               visible: _tipoInsercao == "produto",
-              child: ListTile(
-                title: const Text('Obsoleto'),
-                leading: Transform.scale(
-                  scale: 1.7,
-                  child: Radio<int>(
-                    value: 7,
-                    groupValue: _tipoRefugoProduto,
-                    onChanged: (int? value) {
-                      setState(() {
-                        _tipoRefugoProduto = value;
-                      });
-                    },
+              child: Row(
+                children: [
+                  Expanded(
+                    child: ListTile(
+                      title: const Text('Obsoleto'),
+                      leading: Transform.scale(
+                        scale: 1.7,
+                        child: Radio<int>(
+                          value: 7,
+                          groupValue: _tipoRefugoProduto,
+                          onChanged: (int? value) {
+                            setState(() {
+                              _tipoRefugoProduto = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  Expanded(
+                    child: ListTile(
+                      title: const Text('Injetora'),
+                      leading: Transform.scale(
+                        scale: 1.7,
+                        child: Radio<int>(
+                          value: 2,
+                          groupValue: _tipoRefugoMaquina,
+                          onChanged: (int? value) {
+                            setState(() {
+                              _tipoRefugoMaquina = value;
+                            });
+                          },
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             )
           ],
@@ -1095,7 +1110,7 @@ class _MoinhoPageState extends State<MoinhoPage> {
                       child: DropdownSearch<dynamic>(
                         mode: Mode.MENU,
                         maxHeight: 300,
-                        items: produtos.map((e) => e['dsProduto']).toList(),
+                        items: produtos.map((e) => e['cdProduto']).toList(),
                         showSearchBox: true,
                         dropdownSearchDecoration: const InputDecoration(
                           labelText: "Escolha um produto",
@@ -1111,13 +1126,7 @@ class _MoinhoPageState extends State<MoinhoPage> {
                             isTableLoading = true;
                           });
 
-                          var idProduto = value.toString().substring(0, 1);
-                          var produtoSelecionado = produtos.where((element) =>
-                              element['id'].toString() == idProduto);
-                          var cdProd =
-                              produtoSelecionado.elementAt(0)['cdProduto'];
-
-                          _daoProdutos.getProdutos(cdProd).then((produto) {
+                          _daoProdutos.getProdutos(value).then((produto) {
                             listaProd.clear();
 
                             setState(() {
@@ -1337,23 +1346,49 @@ class _MoinhoPageState extends State<MoinhoPage> {
                   ),
                   Visibility(
                     visible: _tipoInsercao == "produto",
-                    child: ListTile(
-                      title: const Text('Obsoleto',
-                          style: TextStyle(color: Colors.white)),
-                      leading: Transform.scale(
-                        scale: 1.7,
-                        child: Radio<int>(
-                          fillColor: MaterialStateColor.resolveWith(
-                              (states) => Colors.blue),
-                          value: 7,
-                          groupValue: _tipoRefugoProduto,
-                          onChanged: (int? value) {
-                            setState(() {
-                              _tipoRefugoProduto = value;
-                            });
-                          },
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: ListTile(
+                            title: const Text('Obsoleto',
+                                style: TextStyle(color: Colors.white)),
+                            leading: Transform.scale(
+                              scale: 1.7,
+                              child: Radio<int>(
+                                fillColor: MaterialStateColor.resolveWith(
+                                    (states) => Colors.blue),
+                                value: 7,
+                                groupValue: _tipoRefugoProduto,
+                                onChanged: (int? value) {
+                                  setState(() {
+                                    _tipoRefugoProduto = value;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
+                        Expanded(
+                          child: ListTile(
+                            title: const Text('Injetora',
+                                style: TextStyle(color: Colors.white)),
+                            leading: Transform.scale(
+                              scale: 1.7,
+                              child: Radio<int>(
+                                fillColor: MaterialStateColor.resolveWith(
+                                    (states) => Colors.blue),
+                                value: 2,
+                                groupValue: _tipoRefugoMaquina,
+                                onChanged: (int? value) {
+                                  setState(() {
+                                    _tipoRefugoMaquina = value;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   )
                 ],
